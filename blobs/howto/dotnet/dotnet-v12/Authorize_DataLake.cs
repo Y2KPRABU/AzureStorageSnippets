@@ -3,6 +3,7 @@ using Azure.Core;
 using Azure.Identity;
 using Azure.Storage;
 using Azure.Storage.Files.DataLake;
+using Microsoft.Extensions.Azure;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,7 +22,8 @@ namespace dotnet_v12
             StorageSharedKeyCredential sharedKeyCredential =
                 new StorageSharedKeyCredential(accountName, accountKey);
 
-            string dfsUri = $"https://{accountName}.dfs.core.windows.net";
+           // string dfsUri = $"https://{accountName}.dfs.core.windows.net";
+           string dfsUri = $"https://{accountName}.dfs.fabric.microsoft.com";
 
             DataLakeServiceClient dataLakeServiceClient = new DataLakeServiceClient(
                 new Uri(dfsUri),
@@ -34,16 +36,23 @@ namespace dotnet_v12
         // ---------------------------------------------------------
         // Connect to the storage account (Azure AD - get Data Lake service client)
         //----------------------------------------------------------
+        static InteractiveBrowserCredential tokenCredential = null;
 
         // <Snippet_AuthorizeWithAAD>
         public static DataLakeServiceClient GetDataLakeServiceClient(string accountName)
         {
-            string dfsUri = $"https://{accountName}.dfs.core.windows.net";
+          //  string dfsUri = $"https://{accountName}.dfs.core.windows.net";
+           string dfsUri = $"https://{accountName}.dfs.fabric.microsoft.com";
+            InteractiveBrowserCredentialOptions ibco = new InteractiveBrowserCredentialOptions
+            {
+                TokenCachePersistenceOptions = new TokenCachePersistenceOptions { Name = "tokcachefabric", UnsafeAllowUnencryptedStorage = true }
+            };
 
-            DataLakeServiceClient dataLakeServiceClient = new DataLakeServiceClient(
+            tokenCredential ??= new InteractiveBrowserCredential(ibco);
+        DataLakeServiceClient dataLakeServiceClient = new(
                 new Uri(dfsUri),
-                new DefaultAzureCredential());
-
+                tokenCredential);
+            
             return dataLakeServiceClient;
         }
         // </Snippet_AuthorizeWithAAD>
@@ -51,7 +60,8 @@ namespace dotnet_v12
         // <Snippet_AuthorizeWithSAS>
         public static DataLakeServiceClient GetDataLakeServiceClientSAS(string accountName, string sasToken)
         {
-            string dfsUri = $"https://{accountName}.dfs.core.windows.net";
+            //string dfsUri = $"https://{accountName}.dfs.core.windows.net";
+           string dfsUri = $"https://{accountName}.dfs.fabric.microsoft.com";
 
             DataLakeServiceClient dataLakeServiceClient = new DataLakeServiceClient(
                 new Uri(dfsUri),

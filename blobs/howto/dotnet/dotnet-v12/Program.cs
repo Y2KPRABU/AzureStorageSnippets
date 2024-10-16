@@ -214,7 +214,7 @@ namespace dotnet_v12
         //-----------------------------------------------
         private static bool MainMenu()
         {
-            Console.Clear();
+           // Console.Clear();
             Console.WriteLine("Choose a feature area:");
             Console.WriteLine("1) Security");
             Console.WriteLine("2) Monitoring");

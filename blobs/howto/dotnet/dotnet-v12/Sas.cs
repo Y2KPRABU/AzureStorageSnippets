@@ -583,7 +583,7 @@ namespace dotnet_v12
         // Security menu (Can call asynchronous and synchronous methods)
         //-------------------------------------------------
 
-        public async Task<bool> MenuAsync()
+        public static bool MenuAsync()
         {
             Console.Clear();
             Console.WriteLine("Choose a SAS scenario:");

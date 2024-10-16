@@ -25,7 +25,18 @@ namespace dotnet_v12
     public class ACL_DataLake
     {
 
-        DataLakeServiceClient dataLakeServiceClient;
+       static DataLakeServiceClient  dataLakeServiceClient = Authorize_DataLake.GetDataLakeServiceClient(Constants.storageAccountName, Constants.accountKey);
+     // Uncomment if you want to test shared key auth. dataLakeServiceClient = 
+               
+
+            // Uncomment if you want to test AAD auth.
+            //DataLakeServiceClient dataLakeServiceClient = 
+            //    Authorize_DataLake.GetDataLakeServiceClient(Constants.storageAccountName);
+
+            // Get file system client
+
+            DataLakeFileSystemClient fileSystemClient =
+                GetFileSystem(dataLakeServiceClient, Constants.containerName);
 
         #region Get file system
 
@@ -34,7 +45,7 @@ namespace dotnet_v12
         //----------------------------------------------------------
 
         // <Snippet_GetFileSystem>
-        public DataLakeFileSystemClient GetFileSystem
+        public static  DataLakeFileSystemClient GetFileSystem
             (DataLakeServiceClient serviceClient, string fileSystemName)
         {
             DataLakeFileSystemClient fileSystemClient =
@@ -362,19 +373,7 @@ namespace dotnet_v12
             Console.WriteLine("X) Exit to main menu");
             Console.Write("\r\nSelect an option: ");
 
-            // Uncomment if you want to test shared key auth.
-            DataLakeServiceClient dataLakeServiceClient = 
-                Authorize_DataLake.GetDataLakeServiceClient(Constants.storageAccountName, Constants.accountKey);
-
-            // Uncomment if you want to test AAD auth.
-            //DataLakeServiceClient dataLakeServiceClient = 
-            //    Authorize_DataLake.GetDataLakeServiceClient(Constants.storageAccountName);
-
-            // Get file system client
-
-            DataLakeFileSystemClient fileSystemClient =
-                GetFileSystem(dataLakeServiceClient, Constants.containerName);
-
+       
             switch (Console.ReadLine())
             {
                 case "1":

@@ -38,8 +38,8 @@ namespace dotnet_v12
         public const string tenantID = "";
         public const string subscription = "";
         public const string resourceID = "";
-        public const string storageAccountName = "";
-        public const string storageAccountNameAdls = "";
+        public const string storageAccountName = "onelake";
+        public const string storageAccountNameAdls = "onelake";
 
         // Resource constants
         public const string containerName = "";
